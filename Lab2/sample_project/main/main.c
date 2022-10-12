@@ -4,7 +4,7 @@
 #include "freertos/task.h"
 
 #define ESP_INTR_FLAG_DEFAULT 0
-#define CONFIG_BUTTON_PIN 0
+#define CONFIG_BUTTON_PIN GPIO_NUM_27
 
 TaskHandle_t TASK_2 = NULL;
 TaskHandle_t TASK_1 = NULL;
@@ -13,15 +13,17 @@ const TickType_t X_DELAY = 1000 / portTICK_PERIOD_MS;
 
 void IRAM_ATTR button_isr_handler(void* arg)
 {
-    vTaskPrioritySet(TASK_2, 3);
+    // vTaskPrioritySet(TASK_2, 1);
+    vTaskResume(TASK_2);
 }
 
 void button_task(void* arg)
 {
     while (true)
     {
+        vTaskSuspend(NULL);
         printf("ESP32\n");
-        vTaskPrioritySet(TASK_2, 1);
+        // vTaskPrioritySet(TASK_2, 1);
     }
 }
 
@@ -39,7 +41,7 @@ void app_main()
 
     gpio_set_direction(CONFIG_BUTTON_PIN, GPIO_MODE_INPUT);
 
-    gpio_set_intr_type(CONFIG_BUTTON_PIN, GPIO_INTR_NEGEDGE);
+    gpio_set_intr_type(CONFIG_BUTTON_PIN, GPIO_INTR_POSEDGE);
 
     gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
 
