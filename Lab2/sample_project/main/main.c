@@ -23,6 +23,7 @@ void button_task(void* arg)
     {
         vTaskSuspend(NULL);
         printf("ESP32\n");
+        vTaskDelay(X_DELAY/5);
         // vTaskPrioritySet(TASK_2, 1);
     }
 }
@@ -30,7 +31,7 @@ void button_task(void* arg)
 void task_1()
 {
     while(true) {
-        printf("1915066\n");
+        printf("1915066 1913516 1913991 1913322\n");
         vTaskDelay(X_DELAY);
     }
 }
